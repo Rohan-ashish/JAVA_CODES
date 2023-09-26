@@ -1,0 +1,84 @@
+package package1;
+import java.util.Vector;
+import java.util.Scanner;
+
+class ShoppingCartItem {
+    private String itemName;
+    private double itemPrice;
+
+    public ShoppingCartItem(String itemName, double itemPrice) {
+        this.itemName = itemName;
+        this.itemPrice = itemPrice;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public double getItemPrice() {
+        return itemPrice;
+    }
+}
+
+public class ShoppingCart {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Vector<ShoppingCartItem> shoppingCart = new Vector<>();
+
+        while (true) {
+            System.out.println("Shopping Cart Menu:");
+            System.out.println("1. Add Item");
+            System.out.println("2. View Cart");
+            System.out.println("3. Checkout");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter item name: ");
+                    String itemName = scanner.nextLine();
+                    System.out.print("Enter item price: ");
+                    double itemPrice = scanner.nextDouble();
+                    ShoppingCartItem newItem = new ShoppingCartItem(itemName, itemPrice);
+                    shoppingCart.add(newItem);
+                    System.out.println("Item added to the cart.\n");
+                    break;
+                case 2:
+                    if (shoppingCart.isEmpty()) {
+                        System.out.println("Your cart is empty.\n");
+                    } else {
+                        System.out.println("Shopping Cart:");
+                        double totalCost = 0;
+                        for (ShoppingCartItem item : shoppingCart) {
+                            System.out.println(item.getItemName() + " - $" + item.getItemPrice());
+                            totalCost += item.getItemPrice();
+                        }
+                        System.out.println("Total Cost: Rs" + totalCost + "\n");
+                    }
+                    break;
+                case 3:
+                    if (shoppingCart.isEmpty()) {
+                        System.out.println("Your cart is empty. Nothing to checkout.\n");
+                    } else {
+                        System.out.println("Checkout successful!");
+                        double totalCost = 0;
+                        for (ShoppingCartItem item : shoppingCart) {
+                            totalCost += item.getItemPrice();
+                        }
+                        System.out.println("Total Cost: Rs" + totalCost + "\n");
+                        shoppingCart.clear(); // Empty the cart after checkout
+                    }
+                    break;
+                case 4:
+                    System.out.println("Exiting Shopping Cart.");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.\n");
+            }
+        }
+    }
+}
